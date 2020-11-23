@@ -12,7 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['namespace' => 'Dashboard' , 'middleware' => 'auth:admin'] , function (){
+    Route::get('/', 'DashboardController@index')->name('admin.dashboard');  //the first page admin visted if authentecated
 
-Route::get('/', function () {
-    return view('welcome');
+});
+Route::group(['namespace' => 'Dashboard' , 'middleware' => 'guest:admin'] , function (){
+    Route::get('login', 'LoginController@login') -> name('admin.login');
+    Route::post('login', 'LoginController@postLogin') -> name('admin.post.login');
+
 });
