@@ -13,7 +13,7 @@ class ShippingsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,21 @@ class ShippingsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required|exists:settings',
+            'value' => 'required',
+            'plain_value' => 'nullable|numeric'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'id.required' => 'يجبادخالالرقم',
+           // 'id.exists:settings' => '',
+            'value.required' => 'يجب ادخال قيمة التوصيل',
+          //  'plain_value.required' => 'القيمة مطلوبة',
+            'plain_value.numeric' => 'القيمة يجب ان يكون رقم',
+
         ];
     }
 }
