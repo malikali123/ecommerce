@@ -21,6 +21,7 @@ Route::group([
 
     Route::group(['namespace' => 'Dashboard', 'middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');  //the first page admin visted if authentecated
+        Route::get('logout', 'LoginController@logout')->name('admin.logout');
         Route::group(['prefix' => 'settings'], function () {
             Route::get('shipping-methods/{type}', 'SettingsController@editShippingsMethods')->name('edit.shippings.methods');
             Route::put('/shipping-methods/{id}', 'SettingsController@updateShippingsMethods')->name('update.shippings.methods');
