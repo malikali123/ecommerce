@@ -16,7 +16,7 @@ use Mcamara\LaravelLocalization\LaravelLocalization;
 Route::group([
     'prefix' => (new Mcamara\LaravelLocalization\LaravelLocalization)->setLocale(),
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
-] ,function () {
+], function () {
 
 
     Route::group(['namespace' => 'Dashboard', 'middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
@@ -25,6 +25,12 @@ Route::group([
         Route::group(['prefix' => 'settings'], function () {
             Route::get('shipping-methods/{type}', 'SettingsController@editShippingsMethods')->name('edit.shippings.methods');
             Route::put('/shipping-methods/{id}', 'SettingsController@updateShippingsMethods')->name('update.shippings.methods');
+
+        });
+        Route::group(['prefix' => 'profile'], function () {
+            Route::get('edit', 'ProfileController@editProfile')->name('edit.profile');
+            Route::put('update', 'ProfileController@updateProfile')->name('update.profile');
+           // Route::put('update/password', 'ProfileController@updatePassword')->name('update.profile.password');
 
         });
     });
