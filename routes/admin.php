@@ -57,8 +57,9 @@ Route::group([
             // Route::get('changeStatus/{id}', 'MainCategoriesController@changeStatus') -> name('admin.subcategories.status');
 
         });
-        #########################################  end sub categories rote #######################################
-        ########################################### sub categories route #####################################
+        #########################################  end sub categories rote ###################################
+
+        ########################################### brands route #####################################
         Route::group(['prefix' => 'brands'], function () {
             Route::get('/', 'BrandsController@index')->name('admin.brands');
             Route::get('create', 'BrandsController@create')->name('admin.brands.create');
@@ -69,7 +70,20 @@ Route::group([
             // Route::get('changeStatus/{id}', 'BrandsController@changeStatus') -> name('admin.brands.status');
 
         });
-        #########################################  end sub categories rote #######################################
+        #########################################  end brands rote #######################################
+
+        ########################################### tags route #####################################
+        Route::group(['prefix' => 'tags'], function () {
+            Route::get('/', 'tagsController@index')->name('admin.tags');
+            Route::get('create', 'tagsController@create')->name('admin.tags.create');
+            Route::post('store', 'tagsController@store')->name('admin.tags.store');
+            Route::get('edit/{id}', 'tagsController@edit')->name('admin.tags.edit');
+            Route::post('update/{id}', 'tagsController@update')->name('admin.tags.update');
+            Route::get('delete/{id}', 'tagsController@distroy')->name('admin.tags.delete');
+            // Route::get('changeStatus/{id}', 'tagsController@changeStatus') -> name('admin.tags.status');
+
+        });
+        #########################################  end tags rote #######################################
     });
     Route::group(['namespace' => 'Dashboard', 'middleware' => 'guest:admin', 'prefix' => 'admin'], function () {
         Route::get('login', 'LoginController@login')->name('admin.login');

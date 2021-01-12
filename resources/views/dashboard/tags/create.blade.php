@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 @section('content')
     <div class="app-content content">
@@ -8,11 +7,12 @@
                     <div class="row breadcrumbs-top">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="">الرئيسية </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href=""> الماركات التجارية </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.tags')}}"> Tags
+                                         </a>
                                 </li>
-                                <li class="breadcrumb-item active"> تعديل
+                                <li class="breadcrumb-item active"> اضافة tags
                                 </li>
                             </ol>
                         </div>
@@ -26,7 +26,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title" id="basic-layout-form"> تعديل الماركة التجارية </h4>
+                                    <h4 class="card-title" id="basic-layout-form"> اضافةtags </h4>
                                     <a class="heading-elements-toggle"><i
                                             class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
@@ -43,84 +43,88 @@
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         <form class="form"
-                                              action="{{route('admin.brands.update',$brands -> id)}}"
+                                              action="{{route('admin.tags.store')}}"
                                               method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
 
-                                            <input name="id" value="{{$brands -> id}}" type="hidden">
-
-                                            <div class="form-group">
-                                                <div class="text-center">
-                                                    <img
-                                                        src="{{$brands ->photo}}"
-                                                        class="rounded-circle  height-200" width="400" alt="صورة الماركة  ">
-                                                </div>
-                                            </div>
+{{--                                            <div class="form-group">--}}
+{{--                                                <div class="text-center">--}}
+{{--                                                    <img--}}
+{{--                                                        src=""--}}
+{{--                                                        class="rounded-circle  height-150" alt="صورة الماركة  ">--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
 
 
-                                            <div class="form-group">
-                                                <label> صوره الماركة </label>
+                                          {{--
+<div class="form-group">
+                                                <label> صوره الماركة التجارية </label>
                                                 <label id="projectinput7" class="file center-block">
                                                     <input type="file" id="file" name="photo">
                                                     <span class="file-custom"></span>
                                                 </label>
                                                 @error('photo')
                                                 <span class="text-danger">{{$message}}</span>
-                                                @enderror
-                                            </div>
+                                        @enderror
+                                    </div>
+                                          --}}
+
 
                                             <div class="form-body">
 
-                                                <h4 class="form-section"><i class="ft-home"></i> بيانات الماركة </h4>
+                                                <h4 class="form-section"><i class="ft-home"></i> بيانات tags
+                                                </h4>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> اسم الماركة
-                                                           </label>
+                                                            <label for="projectinput1"> الاسم
+                                                            </label>
                                                             <input type="text" id="name"
                                                                    class="form-control"
                                                                    placeholder="  "
-                                                                   value="{{$brands -> name}}"
+                                                                   value="{{old('name')}}"
                                                                    name="name">
                                                             @error("name")
                                                             <span class="text-danger"> {{$message}} </span>
                                                             @enderror
                                                         </div>
-                                                        </div>
-{{--                                                        <div class="col-md-6">--}}
-{{--                                                        <div class="form-group">--}}
-{{--                                                            <label for="projectinput1"> الاسم بالرابط--}}
-{{--                                                           </label>--}}
-{{--                                                            <input type="text" id="name"--}}
-{{--                                                                   class="form-control"--}}
-{{--                                                                   placeholder="  "--}}
-{{--                                                                   value="{{$category -> slug}}"--}}
-{{--                                                                   name="slug">--}}
-{{--                                                            @error("slug")--}}
-{{--                                                            <span class="text-danger"> {{$message}} </span>--}}
-{{--                                                            @enderror--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
+                                                    </div>
+                                                     <div class="col-md-6">
+                                                     <div class="form-group">
+                                                         <label for="projectinput1"> الاسم بالرابط
+                                                        </label>
+                                                         <input type="text" id="name"
+                                                                class="form-control"
+                                                                placeholder="  "
+                                                                value="{{old('slug')}}"
+                                                                name="slug">
+                                                         @error("slug")
+                                                         <span class="text-danger"> {{$message}} </span>
+                                                         @enderror
+                                                     </div>
+                                                 </div>
 
 
+                                                </div>
+                                              {{--
+                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
                                                             <input type="checkbox" value="1"
                                                                    name="is_active"
                                                                    id="switcheryColor4"
                                                                    class="switchery" data-color="success"
-                                                                   @if($brands -> is_active == 1)checked @endif/>
+                                                                   checked/>
                                                             <label for="switcheryColor4"
-                                                                   class="card-title ml-1">الحالة  </label>
+                                                                   class="card-title ml-1">الحالة </label>
 
                                                             @error("is_active")
                                                             <span class="text-danger"> {{ $message  }} </span>
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                </div>
-                                              
+                                                </div>--}}
                                             </div>
 
 
@@ -134,7 +138,6 @@
                                                 </button>
                                             </div>
                                         </form>
-
 
 
                                     </div>

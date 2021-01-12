@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BrandsRequest;
-use App\Http\Requests\MainCotegryRequest;
 use App\Models\Brand;
-//use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -74,10 +72,10 @@ class BrandsController extends Controller
     public function edit($id)
     {
         //get specific category and itis translations
-        $category = Category::orderBy('id', 'DESC')->find($id);
-        if (!$category)
-            return redirect()->route('admin.maincategories')->with(['error' => 'هذا القسم غير موجود']);
-        return view('dashboard.categories.edit', compact('category'));
+        $brands = Brand::find($id);
+        if (!$brands)
+            return redirect()->route('admin.brands')->with(['error' => 'هذا القسم غير موجود']);
+        return view('dashboard.brands.edit', compact('brands'));
     }
 
     public function update($id, BrandsRequest $request)
@@ -86,23 +84,36 @@ class BrandsController extends Controller
             //validation
             //update database
 
-            $category = Category::find($id);
-            if (!$category)
-                return redirect()->route('admin.maincategories')->with(['error' => 'هذا القسم غير موجود']);
+            $brands = Brand::find($id);
+            if (!$brands)
+                return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود']);
+
+            DB::beginTransaction();
+
+            if ($request -> has('photo')){
+                $fileName = uploadImage('brands', $request -> photo);
+                Brand::where('id', $id)
+                    ->update([
+                        'photo' => $fileName
+                    ]) ;
+            }
+
             if (!$request->has('is_active'))
                 $request->request->add(['is_active' => 0]);
             else
                 $request->request->add(['is_active' => 1]);
-            $category->update($request->all());
+
+            $brands->update($request->except('_token', 'id', 'photo'));
 
             //save translations
-            $category->name = $request->name;
-            $category->save();
-            return redirect()->route('admin.maincategories')->with(['success' => 'تم التحديث بنجاح']);
+            $brands->name = $request->name;
+            $brands->save();
+            DB::commit();
+            return redirect()->route('admin.brands')->with(['success' => 'تم التحديث بنجاح']);
 
 
         } catch (\Exception $ex) {
-            return redirect()->route('admin.maincategories')->with(['error' => 'حدث خطا ما الرجاء المحاولة لاحقا']);
+            return redirect()->route('admin.brands')->with(['error' => 'حدث خطا ما الرجاء المحاولة لاحقا']);
 
 
         }
@@ -115,19 +126,20 @@ class BrandsController extends Controller
         try {
             //validation
             //update database
-            $category = Category::orderBy('id', 'DESC')->find($id);
-            if (!$category)
-                return redirect()->route('admin.maincategories')->with(['error' => 'هذا القسم غير موجود']);
-            $category->delete();
+            $brands = Brand::orderBy('id', 'DESC')->find($id);
+            if (!$brands)
+                return redirect()->route('admin.brands')->with(['error' => 'هذا القسم غير موجود']);
+        $brands->delete();
 
-            return redirect()->route('admin.maincategories')->with(['success' => 'تم الحذف بنجاح']);
-
-
-        } catch (\Exception $ex) {
-            return redirect()->route('admin.maincategories')->with(['error' => 'حدث خطا ما الرجاء المحاولة لاحقا']);
+            return redirect()->route('admin.brands')->with(['success' => 'تم الحذف بنجاح']);
 
 
-        }
+       } catch (\Exception $ex) {
+            DB::rollBack();
+            return redirect()->route('admin.brands')->with(['error' => 'حدث خطا ما الرجاء المحاولة لاحقا']);
+
+
+      }
     }
 
 

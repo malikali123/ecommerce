@@ -48,13 +48,13 @@
                                               enctype="multipart/form-data">
                                             @csrf
 
-                                            <div class="form-group">
-                                                <div class="text-center">
-                                                    <img
-                                                        src=""
-                                                        class="rounded-circle  height-150" alt="صورة الماركة  ">
-                                                </div>
-                                            </div>
+{{--                                            <div class="form-group">--}}
+{{--                                                <div class="text-center">--}}
+{{--                                                    <img--}}
+{{--                                                        src=""--}}
+{{--                                                        class="rounded-circle  height-150" alt="صورة الماركة  ">--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
 
 
                                             <div class="form-group">
