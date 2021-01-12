@@ -30,9 +30,60 @@ Route::group([
         Route::group(['prefix' => 'profile'], function () {
             Route::get('edit', 'ProfileController@editProfile')->name('edit.profile');
             Route::put('update', 'ProfileController@updateProfile')->name('update.profile');
-           // Route::put('update/password', 'ProfileController@updatePassword')->name('update.profile.password');
+            // Route::put('update/password', 'ProfileController@updatePassword')->name('update.profile.password');
 
         });
+        ########################################## categories route ##########################################
+        Route::group(['prefix' => 'main_categories'], function () {
+            Route::get('/', 'MainCategoriesController@index')->name('admin.maincategories');
+            Route::get('create', 'MainCategoriesController@create')->name('admin.maincategories.create');
+            Route::post('store', 'MainCategoriesController@store')->name('admin.maincategories.store');
+            Route::get('edit/{id}', 'MainCategoriesController@edit')->name('admin.maincategories.edit');
+            Route::post('update/{id}', 'MainCategoriesController@update')->name('admin.maincategories.update');
+            Route::get('delete/{id}', 'MainCategoriesController@distroy')->name('admin.maincategories.delete');
+            // Route::get('changeStatus/{id}', 'MainCategoriesController@changeStatus') -> name('admin.maincategories.status');
+
+        });
+        #########################################  end categories rote #######################################
+
+        ########################################### sub categories route #####################################
+        Route::group(['prefix' => 'sub_categories'], function () {
+            Route::get('/', 'SubCategoriesController@index')->name('admin.subcategories');
+            Route::get('create', 'SubCategoriesController@create')->name('admin.subcategories.create');
+            Route::post('store', 'SubCategoriesController@store')->name('admin.subcategories.store');
+            Route::get('edit/{id}', 'SubCategoriesController@edit')->name('admin.subcategories.edit');
+            Route::post('update/{id}', 'SubCategoriesController@update')->name('admin.subcategories.update');
+            Route::get('delete/{id}', 'SubCategoriesController@distroy')->name('admin.subcategories.delete');
+            // Route::get('changeStatus/{id}', 'MainCategoriesController@changeStatus') -> name('admin.subcategories.status');
+
+        });
+        #########################################  end sub categories rote ###################################
+
+        ########################################### brands route #####################################
+        Route::group(['prefix' => 'brands'], function () {
+            Route::get('/', 'BrandsController@index')->name('admin.brands');
+            Route::get('create', 'BrandsController@create')->name('admin.brands.create');
+            Route::post('store', 'BrandsController@store')->name('admin.brands.store');
+            Route::get('edit/{id}', 'BrandsController@edit')->name('admin.brands.edit');
+            Route::post('update/{id}', 'BrandsController@update')->name('admin.brands.update');
+            Route::get('delete/{id}', 'BrandsController@distroy')->name('admin.brands.delete');
+            // Route::get('changeStatus/{id}', 'BrandsController@changeStatus') -> name('admin.brands.status');
+
+        });
+        #########################################  end brands rote #######################################
+
+        ########################################### tags route #####################################
+        Route::group(['prefix' => 'tags'], function () {
+            Route::get('/', 'tagsController@index')->name('admin.tags');
+            Route::get('create', 'tagsController@create')->name('admin.tags.create');
+            Route::post('store', 'tagsController@store')->name('admin.tags.store');
+            Route::get('edit/{id}', 'tagsController@edit')->name('admin.tags.edit');
+            Route::post('update/{id}', 'tagsController@update')->name('admin.tags.update');
+            Route::get('delete/{id}', 'tagsController@distroy')->name('admin.tags.delete');
+            // Route::get('changeStatus/{id}', 'tagsController@changeStatus') -> name('admin.tags.status');
+
+        });
+        #########################################  end tags rote #######################################
     });
     Route::group(['namespace' => 'Dashboard', 'middleware' => 'guest:admin', 'prefix' => 'admin'], function () {
         Route::get('login', 'LoginController@login')->name('admin.login');
